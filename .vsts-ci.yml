@@ -11,9 +11,7 @@ queue:
 variables:
   BuildConfiguration: release
   BuildPlatform: x64
-  Parameters:
-    Solution: '**\*.sln'
-    ArtifactName: drop
+  Solution: '**\*.sln'
 
 
 steps:
@@ -26,7 +24,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
   inputs:
-    restoreSolution: '$(Parameters.Solution)'
+    restoreSolution: '$(Solution)'
 
 
 - task: colinsalmcorner.colinsalmcorner-buildtasks.version-assemblies-task.VersionAssemblies@2
@@ -38,7 +36,7 @@ steps:
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
-    solution: '$(Parameters.Solution)'
+    solution: '$(Solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
@@ -60,4 +58,4 @@ steps:
   displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
-    ArtifactName: '$(Parameters.ArtifactName)'
+    ArtifactName: 'drop'
