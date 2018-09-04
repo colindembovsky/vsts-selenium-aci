@@ -1,0 +1,45 @@
+apiVersion: 2018-06-01
+location: eastus
+properties:
+  containers:
+  - name: selenium-hub
+    properties:
+      image: selenium/hub
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+      ports:
+      - port: 4444
+  - name: selenium-node
+    properties:
+      image: selenium/node-__Browser__
+      environmentVariables:
+        - "name": "HUB_HOST"
+          "value": "localhost"
+        - "name": "HUB_PORT"
+          "value": "4444"
+        - "name": "NODE_PORT"
+          "value": "5555"
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+  - name: vsts-agent
+    properties:
+      image: microsoft/vsts-agent:ubuntu-16.04
+      environmentVariables:
+        - "name": "VSTS_ACCOUNT"
+          "value": "__VSTSAccount__"
+        - "name": "VSTS_POOL"
+          "value": "__VSTSPool__"
+        - "name": "VSTS_TOKEN"
+          "secureValue": "__VSTSToken__"
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+  osType: Linux
+  restartPolicy: Always
+tags: null
+type: Microsoft.ContainerInstance/containerGroups

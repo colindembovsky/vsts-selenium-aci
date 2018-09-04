@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="BaseUrl" value="__BaseURL__" />
+    <Parameter name="HubUrl" value="http://localhost:4444/wd/hub" />
+    <Parameter name="Browser" value="local" />
+  </TestRunParameters>
+</RunSettings>
