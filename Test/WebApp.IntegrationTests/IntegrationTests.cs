@@ -4,6 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using System;
+using System.IO;
 
 namespace WebApp.IntegrationTests
 {
@@ -36,7 +37,7 @@ namespace WebApp.IntegrationTests
 				case "local":
 				default:
 				{
-					driver = new ChromeDriver();
+					driver = new ChromeDriver(Directory.GetCurrentDirectory());
 					break;
 				}
 			}
@@ -52,6 +53,16 @@ namespace WebApp.IntegrationTests
 		public void TestAboutPage()
 		{
 			driver.Navigate().GoToUrl($"{BaseUrl}");
+			// click the About link in the nav bar
+			driver.FindElement(By.LinkText("About")).Click();
+
+			// check that we're on the About page
+			var header = driver.FindElement(By.XPath("//*/h2[contains(text(), 'About.')]"));
+
+			// check that the H3 text is correct
+			//var searchWord = "description"; // this should pass
+			var searchWord = "webapp"; // this should fail
+			var aboutBlurb = driver.FindElement(By.XPath($"//*/h3[contains(text(), '{searchWord}')]"));
 		}
 	}
 }
