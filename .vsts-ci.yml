@@ -12,7 +12,7 @@ variables:
   BuildConfiguration: release
   BuildPlatform: x64
   Parameters:
-    Solution: **\*.sln
+    Solution: '**\*.sln'
     ArtifactName: drop
 
 
