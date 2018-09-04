@@ -30,7 +30,7 @@ steps:
 - task: colinsalmcorner.colinsalmcorner-buildtasks.version-assemblies-task.VersionAssemblies@2
   displayName: 'Version Assemblies using **\AssemblyInfo.*'
   inputs:
-    sourcePath: 'PartsUnlimited-aspnet45/src/PartsUnlimitedWebsite'
+    sourcePath: 'WebApp'
 
 
 - task: VSBuild@1
