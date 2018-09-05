@@ -38,7 +38,7 @@ steps:
   displayName: 'Build solution'
   inputs:
     solution: '$(Solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\Test\\"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
@@ -61,7 +61,7 @@ steps:
   inputs:
     sourceFolder: 'Test\WebApp.IntegrationTests\bin\$(BuildConfiguration)\netcoreapp2.1'
     contents: '**'
-    targetFolder: '$(build.artifactstagingdirectory)'
+    targetFolder: '$(build.artifactstagingdirectory)\Test'
 
 
 - task: PublishBuildArtifacts@1
