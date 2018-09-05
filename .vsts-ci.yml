@@ -38,7 +38,7 @@ steps:
   displayName: 'Build solution'
   inputs:
     solution: '$(Solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\Test\\"'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\Web\\"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
