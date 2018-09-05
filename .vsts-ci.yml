@@ -56,7 +56,7 @@ steps:
     configuration: '$(BuildConfiguration)'
 
 
-  task: CopyFiles@2
+- task: CopyFiles@2
   displayName: Copy Integration Tests to atrifact staging folder
   inputs:
     sourceFolder: 'Test\WebApp.IntegrationTests\bin\$(BuildConfiguration)\netcoreapp2.1'
