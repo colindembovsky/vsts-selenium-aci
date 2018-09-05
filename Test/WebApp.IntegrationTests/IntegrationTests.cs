@@ -4,6 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace WebApp.IntegrationTests
@@ -41,6 +42,10 @@ namespace WebApp.IntegrationTests
 					break;
 				}
 			}
+
+			Trace.WriteLine($"HubUrl: {HubUrl}");
+			Trace.WriteLine($"BaseURL: {BaseUrl}");
+			Trace.WriteLine($"Browser: {Browser}");
 		}
 
 		[AssemblyCleanup]

@@ -13,7 +13,7 @@ properties:
       - port: 4444
   - name: selenium-node
     properties:
-      image: selenium/node-__Browser__
+      image: selenium/node-chrome
       environmentVariables:
         - "name": "HUB_HOST"
           "value": "localhost"
@@ -25,7 +25,35 @@ properties:
         requests:
           cpu: 0.5
           memoryInGb: 0.5
-  - name: vsts-agent
+  - name: selenium-firefox
+    properties:
+      image: selenium/node-firefox
+      environmentVariables:
+        - "name": "HUB_HOST"
+          "value": "localhost"
+        - "name": "HUB_PORT"
+          "value": "4444"
+        - "name": "NODE_PORT"
+          "value": "5556"
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+  - name: vsts-agent1
+    properties:
+      image: microsoft/vsts-agent:ubuntu-16.04
+      environmentVariables:
+        - "name": "VSTS_ACCOUNT"
+          "value": "__VSTSAccount__"
+        - "name": "VSTS_POOL"
+          "value": "__VSTSPool__"
+        - "name": "VSTS_TOKEN"
+          "secureValue": "__VSTSToken__"
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 0.5
+  - name: vsts-agent2
     properties:
       image: microsoft/vsts-agent:ubuntu-16.04
       environmentVariables:
