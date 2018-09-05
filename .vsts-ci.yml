@@ -56,21 +56,6 @@ steps:
     configuration: '$(BuildConfiguration)'
 
 
-- task: CopyFiles@2
-  displayName: Copy Integration Tests to atrifact staging folder
-  inputs:
-    sourceFolder: 'Test\WebApp.IntegrationTests\bin\$(BuildConfiguration)\netcoreapp2.1'
-    contents: '**'
-    targetFolder: '$(build.artifactstagingdirectory)\Test'
-
-
-- task: DeleteFiles@1
-  displayName: Remove chromedriver.exe from drop
-  inputs:
-    sourceFolder: '$(build.artifactstagingdirectory)\Test'
-    contents: '*.exe'
-
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
