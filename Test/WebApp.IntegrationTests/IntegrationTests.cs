@@ -65,8 +65,8 @@ namespace WebApp.IntegrationTests
 			var header = driver.FindElement(By.XPath("//*/h2[contains(text(), 'About.')]"));
 
 			// check that the H3 text is correct
-			//var searchWord = "description"; // this should pass
-			var searchWord = "webapp"; // this should fail
+			var searchWord = "description"; // this should pass
+			//var searchWord = "webapp"; // this should fail
 			var aboutBlurb = driver.FindElement(By.XPath($"//*/h3[contains(text(), '{searchWord}')]"));
 		}
 	}
