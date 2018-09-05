@@ -43,8 +43,8 @@ properties:
     properties:
       image: microsoft/vsts-agent:ubuntu-16.04
       environmentVariables:
-	    - "name": "VSTS_AGENT"
-		  "value": "$(hostname)-a1"
+        - "name": "VSTS_AGENT"
+          "value": "$(hostname)-a1"
         - "name": "VSTS_ACCOUNT"
           "value": "__VSTSAccount__"
         - "name": "VSTS_POOL"
@@ -59,8 +59,8 @@ properties:
     properties:
       image: microsoft/vsts-agent:ubuntu-16.04
       environmentVariables:
-		- "name": "VSTS_AGENT"
-		  "value": "$(hostname)-a2"
+        - "name": "VSTS_AGENT"
+          "value": "$(hostname)-a2"
         - "name": "VSTS_ACCOUNT"
           "value": "__VSTSAccount__"
         - "name": "VSTS_POOL"
