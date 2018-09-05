@@ -51,7 +51,7 @@ steps:
      !**\obj\**
 
     codeCoverageEnabled: true
-    pathtoCustomTestAdapters: 'WebApp.UnitTests\bin\$(BuildConfiguration)'
+    pathtoCustomTestAdapters: 'Test\WebApp.UnitTests\bin\$(BuildConfiguration)'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
