@@ -1,0 +1,40 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "hostingPlanName": "[concat(parameters('name'), '-plan')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-09-01",
+      "name": "[parameters('hostingPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('hostingPlanName')]"
+      },
+      "sku": {
+        "Tier": "Free",
+        "Name": "F1"
+      }
+    },
+    {
+      "apiVersion": "2016-03-01",
+      "name": "[parameters('name')]",
+      "type": "Microsoft.Web/sites",
+      "properties": {
+        "name": "[parameters('name')]",
+        "serverFarmId": "[variables('hostingPlanName')]",
+      },
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+      ]
+    }
+  ]
+}
