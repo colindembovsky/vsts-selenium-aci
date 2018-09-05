@@ -64,6 +64,13 @@ steps:
     targetFolder: '$(build.artifactstagingdirectory)\Test'
 
 
+- task: DeleteFiles@1
+  displayName: Remove chromedriver.exe from drop
+  inputs:
+    sourceFolder: '$(build.artifactstagingdirectory)\Test'
+    contents: '*.exe'
+
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
