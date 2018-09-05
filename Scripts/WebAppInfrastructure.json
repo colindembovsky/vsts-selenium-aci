@@ -31,7 +31,7 @@
         "name": "[parameters('name')]",
         "serverFarmId": "[variables('hostingPlanName')]"
       },
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
       ]
