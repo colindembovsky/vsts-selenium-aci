@@ -29,7 +29,7 @@
       "type": "Microsoft.Web/sites",
       "properties": {
         "name": "[parameters('name')]",
-        "serverFarmId": "[variables('hostingPlanName')]",
+        "serverFarmId": "[variables('hostingPlanName')]"
       },
       "location": "[parameters('location')]",
       "dependsOn": [
