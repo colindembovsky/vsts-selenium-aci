@@ -10,7 +10,7 @@ queue:
 
 
 variables:
-  BuildConfiguration: release
+  BuildConfiguration: debug
   BuildPlatform: 'Any CPU'
   Solution: '**\*.sln'
 
