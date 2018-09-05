@@ -12,11 +12,11 @@
   "resources": [
     {
       "apiVersion": "2016-09-01",
-      "name": "[parameters('hostingPlanName')]",
+      "name": "[variables('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[resourceGroup().location]",
       "properties": {
-        "name": "[parameters('hostingPlanName')]"
+        "name": "[variables('hostingPlanName')]"
       },
       "sku": {
         "Tier": "Free",
