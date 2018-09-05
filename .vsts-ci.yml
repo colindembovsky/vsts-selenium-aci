@@ -10,7 +10,7 @@ queue:
 
 
 variables:
-  BuildConfiguration: debug
+  BuildConfiguration: release
   BuildPlatform: 'Any CPU'
   Solution: '**\*.sln'
 
@@ -51,6 +51,7 @@ steps:
      !**\obj\**
 
     codeCoverageEnabled: true
+    vsTestVersion: 15.0
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
