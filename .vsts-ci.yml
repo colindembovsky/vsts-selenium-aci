@@ -51,7 +51,7 @@ steps:
      !**\obj\**
 
     codeCoverageEnabled: true
-    vsTestVersion: 15.0
+    pathtoCustomTestAdapters: 'WebApp.UnitTests\bin\$(BuildConfiguration)'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
