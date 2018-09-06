@@ -1,0 +1,634 @@
+{
+    "name": "WebApp",
+    "path": "\\",
+    "variables": {
+        "ACIName": {
+            "value": "cd-selenium-aci"
+        },
+        "BaseURL": {
+            "value": "http://$(WebAppName).azurewebsites.net"
+        },
+        "Browser": {
+            "value": "chrome,firefox"
+        },
+        "Location": {
+            "value": "WestUS"
+        },
+        "RGName": {
+            "value": "cd-acitest"
+        },
+        "VSTSAccount": {
+            "value": "colinsalmcorner"
+        },
+        "VSTSPool": {
+            "value": "ACI"
+        },
+        "VSTSToken": {
+            "value": null,
+            "isSecret": true
+        },
+        "WebAppName": {
+            "value": "cd-acimvc"
+        }
+    },
+    "variableGroups": [],
+    "environments": [
+        {
+            "id": 1,
+            "name": "dev",
+            "rank": 1,
+            "variables": {},
+            "variableGroups": [],
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 1
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": true,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": 1
+                }
+            },
+            "deployStep": {
+                "id": 2
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 3
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": true,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": 2
+                }
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": [
+                                {
+                                    "alias": "infra",
+                                    "artifactType": "GitHub",
+                                    "artifactDownloadMode": "All"
+                                },
+                                {
+                                    "artifactItems": [],
+                                    "alias": "WebApp",
+                                    "artifactType": "Build",
+                                    "artifactDownloadMode": "All"
+                                }
+                            ]
+                        },
+                        "queueId": 14,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Provision infrastructure",
+                    "workflowTasks": [
+                        {
+                            "environment": {},
+                            "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
+                            "version": "2.*",
+                            "name": "Azure Deployment:Create Or Update Resource Group action on $(RGName)",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "ConnectedServiceName": "",
+                                "action": "Create Or Update Resource Group",
+                                "resourceGroupName": "$(RGName)",
+                                "location": "$(Location)",
+                                "templateLocation": "Linked artifact",
+                                "csmFileLink": "",
+                                "csmParametersFileLink": "",
+                                "csmFile": "$(System.DefaultWorkingDirectory)/infra/Scripts/WebAppInfrastructure.json",
+                                "csmParametersFile": "",
+                                "overrideParameters": "-name $(WebAppName)",
+                                "deploymentMode": "Incremental",
+                                "enableDeploymentPrerequisites": "None",
+                                "deploymentGroupEndpoint": "",
+                                "project": "",
+                                "deploymentGroupName": "",
+                                "copyAzureVMTags": "true",
+                                "runAgentServiceAsUser": "false",
+                                "userName": "",
+                                "password": "",
+                                "outputVariable": "",
+                                "deploymentOutputs": ""
+                            }
+                        },
+                        {
+                            "environment": {},
+                            "taskId": "9240b5c1-a1b2-4799-9325-e071c63236fb",
+                            "version": "1.*",
+                            "name": "Replace tokens in $(System.DefaultWorkingDirectory)/infra/Scripts/",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "sourcePath": "$(System.DefaultWorkingDirectory)/infra/Scripts/",
+                                "filePattern": "*.release.*",
+                                "tokenRegex": "__(\\w+)__",
+                                "secretTokens": ""
+                            }
+                        },
+                        {
+                            "environment": {},
+                            "taskId": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
+                            "version": "1.*",
+                            "name": "Deploy ACI",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "connectedServiceNameARM": "",
+                                "scriptLocation": "inlineScript",
+                                "scriptPath": "",
+                                "inlineScript": "echo \"az container create -g ${1} -n ${2} --file ${3}\"\naz container create -g $1 -n $2 --file $3",
+                                "args": "$(RGName) $(ACIName) $(System.DefaultWorkingDirectory)/infra/Scripts/VSTS-Selenium-ACI.release.yaml",
+                                "cwd": "",
+                                "failOnStandardError": "false"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": [
+                                {
+                                    "alias": "infra",
+                                    "artifactType": "GitHub",
+                                    "artifactDownloadMode": "All"
+                                },
+                                {
+                                    "artifactItems": [],
+                                    "alias": "WebApp",
+                                    "artifactType": "Build",
+                                    "artifactDownloadMode": "All"
+                                }
+                            ]
+                        },
+                        "queueId": 25,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 2,
+                    "phaseType": 1,
+                    "name": "Deploy using WebDeploy",
+                    "workflowTasks": [
+                        {
+                            "environment": {},
+                            "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
+                            "version": "4.*",
+                            "name": "Azure App Service Deploy: $(WebAppName)",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "ConnectionType": "AzureRM",
+                                "ConnectedServiceName": "",
+                                "PublishProfilePath": "$(System.DefaultWorkingDirectory)/**/*.pubxml",
+                                "PublishProfilePassword": "",
+                                "WebAppKind": "webApp",
+                                "WebAppName": "$(WebAppName)",
+                                "DeployToSlotOrASEFlag": "false",
+                                "ResourceGroupName": "",
+                                "SlotName": "",
+                                "DockerNamespace": "",
+                                "DockerRepository": "",
+                                "DockerImageTag": "",
+                                "VirtualApplication": "",
+                                "Package": "$(System.DefaultWorkingDirectory)/WebApp/drop/Web/WebApp.zip",
+                                "RuntimeStack": "",
+                                "StartupCommand": "",
+                                "ScriptType": "",
+                                "InlineScript": ":: You can provide your deployment commands here. One command per line.",
+                                "ScriptPath": "",
+                                "WebConfigParameters": "",
+                                "AppSettings": "",
+                                "ConfigurationSettings": "",
+                                "UseWebDeploy": "false",
+                                "DeploymentType": "webDeploy",
+                                "TakeAppOfflineFlag": "false",
+                                "SetParametersFile": "",
+                                "RemoveAdditionalFilesFlag": "false",
+                                "ExcludeFilesFromAppDataFlag": "false",
+                                "AdditionalArguments": "",
+                                "RenameFilesFlag": "false",
+                                "XmlTransformation": "false",
+                                "XmlVariableSubstitution": "false",
+                                "JSONFiles": ""
+                            }
+                        }
+                    ]
+                },
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "multipliers": "Browser",
+                            "maxNumberOfAgents": 2,
+                            "continueOnError": true,
+                            "parallelExecutionType": "multiConfiguration"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": [
+                                {
+                                    "alias": "infra",
+                                    "artifactType": "GitHub",
+                                    "artifactDownloadMode": "All"
+                                },
+                                {
+                                    "artifactItems": [],
+                                    "alias": "WebApp",
+                                    "artifactType": "Build",
+                                    "artifactDownloadMode": "All"
+                                }
+                            ]
+                        },
+                        "queueId": 67,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 3,
+                    "phaseType": 1,
+                    "name": "Run Tests",
+                    "workflowTasks": [
+                        {
+                            "environment": {},
+                            "taskId": "b0ce7256-7898-45d3-9cb5-176b752bfea6",
+                            "version": "0.*",
+                            "name": "Use .NET Core sdk 2.1.3",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "packageType": "sdk",
+                                "version": "2.1.3"
+                            }
+                        },
+                        {
+                            "environment": {},
+                            "taskId": "9240b5c1-a1b2-4799-9325-e071c63236fb",
+                            "version": "1.*",
+                            "name": "Replace tokens in $(System.DefaultWorkingDirectory)/infra/Scripts",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "sourcePath": "$(System.DefaultWorkingDirectory)/infra/Scripts",
+                                "filePattern": "*.release.*",
+                                "tokenRegex": "__(\\w+)__",
+                                "secretTokens": ""
+                            }
+                        },
+                        {
+                            "environment": {},
+                            "taskId": "5541a522-603c-47ad-91fc-a4b1d163081b",
+                            "version": "2.*",
+                            "name": "dotnet test",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "command": "test",
+                                "publishWebProjects": "true",
+                                "projects": "$(System.DefaultWorkingDirectory)/infra/Test/WebApp.IntegrationTests/WebApp.IntegrationTests.csproj --logger trx --results-directory $(Agent.TempDirectory)",
+                                "custom": "",
+                                "arguments": "-s $(System.DefaultWorkingDirectory)/infra/WebApp/Scripts/selenium.release.runsettings",
+                                "publishTestResults": "false",
+                                "zipAfterPublish": "true",
+                                "modifyOutputPath": "true",
+                                "selectOrConfig": "select",
+                                "feedRestore": "",
+                                "includeNuGetOrg": "true",
+                                "nugetConfigPath": "",
+                                "externalEndpoints": "",
+                                "noCache": "false",
+                                "packagesDirectory": "",
+                                "verbosityRestore": "Detailed",
+                                "searchPatternPush": "$(Build.ArtifactStagingDirectory)/*.nupkg",
+                                "nuGetFeedType": "internal",
+                                "feedPublish": "",
+                                "externalEndpoint": "",
+                                "searchPatternPack": "**/*.csproj",
+                                "configurationToPack": "$(BuildConfiguration)",
+                                "outputDir": "$(Build.ArtifactStagingDirectory)",
+                                "nobuild": "false",
+                                "versioningScheme": "off",
+                                "versionEnvVar": "",
+                                "requestedMajorVersion": "1",
+                                "requestedMinorVersion": "0",
+                                "requestedPatchVersion": "0",
+                                "buildProperties": "",
+                                "verbosityPack": "Detailed",
+                                "workingDirectory": ""
+                            }
+                        },
+                        {
+                            "environment": {},
+                            "taskId": "0b0f01ed-7dde-43ff-9cbb-e48954daf9b1",
+                            "version": "2.*",
+                            "name": "Publish Test Results **/*.trx",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "testRunner": "VSTest",
+                                "testResultsFiles": "**/*.trx",
+                                "searchFolder": "$(Agent.TempDirectory)",
+                                "mergeTestResults": "false",
+                                "testRunTitle": "$(Browser) Test Run",
+                                "platform": "",
+                                "configuration": "",
+                                "publishRunAttachments": "true"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": [
+                                {
+                                    "alias": "infra",
+                                    "artifactType": "GitHub",
+                                    "artifactDownloadMode": "All"
+                                },
+                                {
+                                    "artifactItems": [],
+                                    "alias": "WebApp",
+                                    "artifactType": "Build",
+                                    "artifactDownloadMode": "All"
+                                }
+                            ]
+                        },
+                        "queueId": 14,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeededOrFailed()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 4,
+                    "phaseType": 1,
+                    "name": "Tear down ACI",
+                    "workflowTasks": [
+                        {
+                            "environment": {},
+                            "taskId": "46e4be58-730b-4389-8a2f-ea10b3e5e815",
+                            "version": "1.*",
+                            "name": "Tear down ACI",
+                            "refName": "",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "connectedServiceNameARM": "",
+                                "scriptLocation": "inlineScript",
+                                "scriptPath": "",
+                                "inlineScript": "az container delete -g $1 -n $2 --yes",
+                                "args": "$(RGName) $(ACIName)",
+                                "cwd": "",
+                                "failOnStandardError": "false"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true,
+                "badgeEnabled": false,
+                "autoLinkWorkItems": false,
+                "pullRequestDeploymentEnabled": false
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "ReleaseStarted",
+                    "conditionType": 1,
+                    "value": ""
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 1,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {},
+            "preDeploymentGates": {
+                "id": 0,
+                "gatesOptions": null,
+                "gates": []
+            },
+            "postDeploymentGates": {
+                "id": 0,
+                "gatesOptions": null,
+                "gates": []
+            },
+            "environmentTriggers": []
+        }
+    ],
+    "artifacts": [
+        {
+            "sourceId": "0344d9c2-02ac-4287-95a8-b76a93e3e42e:colindembovsky/vsts-selenium-aci",
+            "type": "GitHub",
+            "alias": "infra",
+            "definitionReference": {
+                "artifactSourceDefinitionUrl": {
+                    "id": "https://github.com/colindembovsky/vsts-selenium-aci",
+                    "name": ""
+                },
+                "branch": {
+                    "id": "master",
+                    "name": "master"
+                },
+                "checkoutNestedSubmodules": {
+                    "id": "True",
+                    "name": "Any nested submodules within"
+                },
+                "checkoutSubmodules": {
+                    "id": "",
+                    "name": ""
+                },
+                "connection": {
+                    "id": "",
+                    "name": "GitHub"
+                },
+                "defaultVersionSpecific": {
+                    "id": "",
+                    "name": ""
+                },
+                "defaultVersionType": {
+                    "id": "latestFromBranchType",
+                    "name": "Latest from the default branch"
+                },
+                "definition": {
+                    "id": "colindembovsky/vsts-selenium-aci",
+                    "name": "colindembovsky/vsts-selenium-aci"
+                },
+                "fetchDepth": {
+                    "id": "",
+                    "name": ""
+                },
+                "gitLfsSupport": {
+                    "id": "",
+                    "name": ""
+                }
+            },
+            "isRetained": false
+        },
+        {
+            "sourceId": "f9a5b53e-c7e7-4025-945e-cc5db1b87c86:32",
+            "type": "Build",
+            "alias": "WebApp",
+            "definitionReference": {
+                "artifactSourceDefinitionUrl": {
+                    "id": "",
+                    "name": ""
+                },
+                "defaultVersionBranch": {
+                    "id": "",
+                    "name": ""
+                },
+                "defaultVersionSpecific": {
+                    "id": "",
+                    "name": ""
+                },
+                "defaultVersionTags": {
+                    "id": "",
+                    "name": ""
+                },
+                "defaultVersionType": {
+                    "id": "latestType",
+                    "name": "Latest"
+                },
+                "definition": {
+                    "id": "32",
+                    "name": "WebApp CI"
+                },
+                "project": {
+                    "id": "",
+                    "name": ""
+                }
+            },
+            "isPrimary": true,
+            "isRetained": false
+        }
+    ],
+    "triggers": [
+        {
+            "artifactAlias": "WebApp",
+            "triggerConditions": [],
+            "triggerType": 1
+        }
+    ],
+    "releaseNameFormat": "$(Build.BuildNumber)-$(rev:r)",
+    "tags": [],
+    "properties": {
+        "DefinitionCreationSource": {
+            "$type": "System.String",
+            "$value": "Other"
+        }
+    }
+}
