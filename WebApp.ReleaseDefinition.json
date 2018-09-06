@@ -3,7 +3,7 @@
     "path": "\\",
     "variables": {
         "ACIName": {
-            "value": "cd-selenium-aci"
+            "value": "my-selenium-aci"
         },
         "BaseURL": {
             "value": "http://$(WebAppName).azurewebsites.net"
@@ -15,10 +15,10 @@
             "value": "WestUS"
         },
         "RGName": {
-            "value": "cd-acitest"
+            "value": "my-acitest"
         },
         "VSTSAccount": {
-            "value": "colinsalmcorner"
+            "value": "myvsts"
         },
         "VSTSPool": {
             "value": "ACI"
@@ -28,7 +28,7 @@
             "isSecret": true
         },
         "WebAppName": {
-            "value": "cd-acimvc"
+            "value": "acimvc"
         }
     },
     "variableGroups": [],
@@ -368,9 +368,9 @@
                             "inputs": {
                                 "command": "test",
                                 "publishWebProjects": "true",
-                                "projects": "$(System.DefaultWorkingDirectory)/infra/Test/WebApp.IntegrationTests/WebApp.IntegrationTests.csproj --logger trx --results-directory $(Agent.TempDirectory)",
+                                "projects": "$(System.DefaultWorkingDirectory)/infra/Test/WebApp.IntegrationTests/WebApp.IntegrationTests.csproj",
                                 "custom": "",
-                                "arguments": "-s $(System.DefaultWorkingDirectory)/infra/WebApp/Scripts/selenium.release.runsettings",
+                                "arguments": "-s $(System.DefaultWorkingDirectory)/infra/Scripts/selenium.release.runsettings --logger trx --results-directory $(Agent.TempDirectory)",
                                 "publishTestResults": "false",
                                 "zipAfterPublish": "true",
                                 "modifyOutputPath": "true",
